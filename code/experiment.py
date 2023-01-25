@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
-import mlflow.sklearn
+#import mlflow.sklearn
 import logging
 
 logging.basicConfig(level=logging.WARN)
@@ -25,9 +25,9 @@ if __name__ == "__main__":
     mlflow.set_experiment("wine-quality-test")
 
     csv_url = (
-        "http://archive.ics.uci.edu/ml/machine-learning-databases/winequality/winequality-red.csv"
+        "http://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
     )
-
+        
     try:
         data = pd.read_csv(csv_url, sep=";")
 
@@ -64,4 +64,4 @@ if __name__ == "__main__":
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
-        mlflow.sklearn.log_model(lr, "model")
+        #mlflow.sklearn.log_model(lr, "model")
