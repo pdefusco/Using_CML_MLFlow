@@ -89,3 +89,44 @@ taking an optional artifact_path.
 ● mlflow.get_artifact_uri() returns the URI that artifacts from the current run
 should be logged to.
 For more information on MLflow API commands used for tracking, see MLflow Tracking
+
+## Requirements
+
+To reproduce this quickstart you need:
+
+1. A CML Workspace on Azure, AWS or Private Cloud
+
+2. Although very code changes are required, familiarity with Python is recommended
+
+## Instructions
+
+1. Install requirements: open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Execute "!pip3 install -r requirements.txt" in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
+
+2. Run your first experiment: open the "Experiments" tab and create a new experiment with name "wine-quality-test". Then open "code/experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
+
+3. Navigate back to the Experiments tab, locate the "wine-quality-test" experiment and finally open the Artifacts section. Click on the latest experiment link and you will land into the Experiment Details page. Scroll to the bottom, click on "Model" in the "Artifacts" section and copy the value for the "logged_model" variable.
+
+4. In the Workbench Editor, create a new file name ".gitignore" and add "!.experiments" in it.
+
+5. Navigate to the CML Models page and create a new Model. Choose the "mlpredict.py" script as base file and set the "predict" function in the model configurations. Enter the following dictionary in the "Example Input" section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
+
+```
+{
+"input": [
+    [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4]
+  ]
+}  
+```
+
+6. Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
+
+## Related Demos and Tutorials
+
+If you are evaluating CML you may also benefit from testing the following demos:
+
+* [Telco Churn Demo](https://github.com/pdefusco/CML_AMP_Churn_Prediction): Build an End to End ML Project in CML and Increase ML Explainability with the LIME Library
+* [Learn how to use Cloudera Applied ML Prototypes](https://docs.cloudera.com/machine-learning/cloud/applied-ml-prototypes/topics/ml-amps-overview.html) to discover more projects using MLFlow, Streamlit, Tensorflow, PyTorch and many more popular libraries
+* [CSA2CML](https://github.com/pdefusco/CSA2CML): Build a real time anomaly detection dashboard with Flink, CML, and Streamlit
+* [SDX2CDE](https://github.com/pdefusco/SDX2CDE): Explore ML Governance and Security features in SDX to increase legal compliance and enhance ML Ops best practices
+* [API v2](https://github.com/pdefusco/CML_AMP_APIv2): Familiarize yourself with API v2, CML's goto Python Library for ML Ops and DevOps
+* [MLOps](https://github.com/pdefusco/MLOps): Explore a detailed ML Ops pipeline powered by Apache Iceberg
