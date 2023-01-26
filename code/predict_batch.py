@@ -1,7 +1,6 @@
 import mlflow
 
-logged_model = '/home/cdsw/.experiments/umyb-mq5h-2v3x-j445/5t4w-q921-u7rz-1jfz/artifacts/model'
-
+logged_model = '/home/cdsw/.experiments/0trj-c5b3-3bni-kqbv/wgr0-r0cb-24lk-8kf2/artifacts/model'
 # Load model as a PyFuncModel.
 loaded_model = mlflow.pyfunc.load_model(logged_model)
 

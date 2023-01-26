@@ -1,15 +1,13 @@
 import os
 import warnings
 import sys
+import mlflow
 import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
-from urllib.parse import urlparse
-import mlflow
 import mlflow.sklearn
-
 import logging
 
 logging.basicConfig(level=logging.WARN)
@@ -22,11 +20,12 @@ def eval_metrics(actual, pred):
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
 
-
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     np.random.seed(40)
 
+    mlflow.set_experiment("wine-quality-test")
+    
     # Read the wine-quality csv file from the URL
     csv_url = (
         "https://raw.githubusercontent.com/mlflow/mlflow/master/tests/data/winequality-red.csv"
@@ -49,8 +48,9 @@ if __name__ == "__main__":
 
     alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
     l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
-
+    
     with mlflow.start_run():
+      
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
         lr.fit(train_x, train_y)
 
@@ -68,4 +68,4 @@ if __name__ == "__main__":
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
-        mlflow.sklearn.log_model(lr, "model", registered_model_name="ElasticnetWineModel")
+        mlflow.sklearn.log_model(lr, "model")
