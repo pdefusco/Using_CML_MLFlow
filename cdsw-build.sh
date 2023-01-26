@@ -1,1 +1,1 @@
-pip3 install sklearn mlflow pandas
+pip3 install scikit-learn mlflow pandas
