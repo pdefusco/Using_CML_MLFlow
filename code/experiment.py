@@ -9,9 +9,24 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
 import mlflow.sklearn
 import logging
+import json
+
+# Create some files to preserve as artifacts
+features = "rooms, zipcode, median_price, school_rating, transport"
+data = {"state": "TX", "Available": 25, "Type": "Detached"}
+
+# Create couple of artifact files under the directory "data"
+os.makedirs("data", exist_ok=True)
+with open("data/data.json", 'w', encoding='utf-8') as f:
+    json.dump(data, f, indent=2)
+with open("data/features.txt", 'w') as f:
+    f.write(features)
+
+#mlflow.end_run()
 
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
+
 
 
 def eval_metrics(actual, pred):
@@ -25,6 +40,9 @@ if __name__ == "__main__":
     np.random.seed(40)
 
     mlflow.set_experiment("wine-quality-test")
+    
+    current_experiment=dict(mlflow.get_experiment_by_name("wine-quality-test"))
+    experiment_id=current_experiment['experiment_id']
     
     # Read the wine-quality csv file from the URL
     csv_url = (
@@ -47,9 +65,13 @@ if __name__ == "__main__":
     test_y = test[["quality"]]
 
     alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
-    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
+    l1_ratio = 0.8 #float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
     
-    with mlflow.start_run():
+    tags = {"engineering": "ML Platform",
+        "engineering_remote": "ML Platform"}
+    
+    
+    with mlflow.start_run() as run:
       
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
         lr.fit(train_x, train_y)
@@ -68,4 +90,12 @@ if __name__ == "__main__":
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
-        mlflow.sklearn.log_model(lr, "model")
+        
+        mlflow.sklearn.log_model(lr, "model", registered_model_name="MyNewModel")
+        #mlflow.log_artifacts("data", artifact_path="custom_artifacts")
+        #mlflow.set_tags(tags)
+        
+        #run_id = run.info.run_id
+        #print(run_id)
+        #mlflow.set_tag("mlflow.note.content","<my_note_here>")
+        
