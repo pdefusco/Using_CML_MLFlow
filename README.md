@@ -126,9 +126,17 @@ Exit out of the DEV Project and navigate to the Model Registry landing page. Val
 
 ![alt text](img/mlflow_step25.png)
 
+Next, click on the ```Deploy``` icon. Select the ```PRD``` project from the dropdown. This will automatically create a CML Model Endpoint in ```PRD``` and deploy the model from the ```DEV``` project.
+
 ![alt text](img/mlflow_step26.png)
 
-Next, click on the ```Deploy``` icon. Select the ```PRD``` project from the dropdown. This will automatically create a CML Model Endpoint in ```PRD``` and deploy the model from the ```DEV``` project.
+Fill out the Model Deployment options as shown below. Ensure to select
+
+![alt text](img/mlflow_step27.png)
+
+![alt text](img/mlflow_step28.png)
+
+![alt text](img/mlflow_step29.png)
 
 Enter the below dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
 
@@ -141,6 +149,12 @@ Enter the below dictionary in the ```Example Input``` section. Feel free to choo
 ```
 
 Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
+
+![alt text](img/mlflow_step30.png)
+
+![alt text](img/mlflow_step31.png)
+
+![alt text](img/mlflow_step32.png)
 
 
 ## API Reference
