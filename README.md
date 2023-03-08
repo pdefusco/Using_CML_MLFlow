@@ -1,6 +1,13 @@
 # Using ML Flow in CML
 
-This project is a CML Quickstart for ML Flow Experiments based on the Release Guide that can be downloaded at this [link](https://docs.cloudera.com/cdp-public-cloud-preview-features/cloud/pub-ml-experiments-with-mlflow/pub-ml-experiments-with-mlflow.pdf).
+This project demonstrates Key ML Flow functionality in CML, the Cloudera Machine Learning Data Service available in CDP Private and Public Cloud.
+
+CDP Machine Learning (CML) enables enterprise data science teams to collaborate across the full data lifecycle with immediate access to enterprise data pipelines, scalable compute resources, and access to preferred tools for MLOps such as MLFlow.
+
+MLflow is an open source platform to manage the ML lifecycle, including experimentation, reproducibility, deployment, and a central model registry. CML currently supports two MLFlow components: Experiments and Registry.
+
+To learn more about the Cloudera Machine Learning Service please visit the documentation at [this page](https://docs.cloudera.com/machine-learning/cloud/product/topics/ml-product-overview.html).
+To learn more about MLFlow please visit the project documentation at [this page](https://mlflow.org/).
 
 
 ## Overview
@@ -19,16 +26,10 @@ CML is compatible with the MLflow tracking API and makes use of the MLflow clien
 the default method to log experiments. Existing projects with existing experiments are still
 available and usable.
 
-The functionality described in this document is for the new version of the Experiments feature,
-which replaces an older version of the Experiments feature that could not be used from within
-Sessions. In Projects that have existing Experiments created using the previous feature, you
-can continue to view these existing Experiments. New Projects will use the new Experiments
-feature.
-
 
 ## CML Experiment Tracking and Model Deployment
 
-### Requirements
+### Tutorial Requirements
 
 To reproduce this quickstart you need:
 
@@ -39,9 +40,27 @@ To reproduce this quickstart you need:
 
 ## Instructions
 
-1. Create a CML Project using this github repository. Name the project "DEV".
+#### 1. Create a CML Project using this Github repository. Name the project "DEV".
 
-2. Install the requirements in the DEV CML Project. Open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Execute "!pip3 install -r requirements.txt" in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
+Create a new project named "DEV".
+
+![alt text](img/mlflow_step1.png)
+
+Use the ```https://github.com/pdefusco/Using_CML_MLFlow.git``` URL to clone the project from Git.
+
+![alt text](img/mlflow_step2.png)
+
+Select a Python runtime for the project with version 3.7 or higher.
+
+![alt text](img/mlflow_step3.png)
+
+#### 2. Install the requirements in the DEV CML Project.
+
+Open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Leave Spark Add On untoggled. A basic resource profile with 1 vCPU and 2 GiB Mem is enough. No GPU's required.
+
+
+
+Execute "!pip3 install -r requirements.txt" in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
 
 3. Run your first experiment: open the "Experiments" tab and create a new experiment with name "wine-quality-test". Then open "code/01_Experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
 
@@ -49,13 +68,13 @@ To reproduce this quickstart you need:
 
 5. Navigate back to the Projects Homepage and create a new empty project named "PRD".
 
-6. Navigate back into the "DEV" project. In the same CML Session execute the "02_Experiment_log_model.py" script. Go to the Experiments page and validate that you have a new Experiment run. 
+6. Navigate back into the "DEV" project. In the same CML Session execute the "02_Experiment_log_model.py" script. Go to the Experiments page and validate that you have a new Experiment run.
 Notice that the script is almost identical to "01_Experiment.py" with the exception for line 71. This is where the mlflow API is used to log the model i.e. store model artifacts in the associated Experiment.
-Open the related experiment run in the Experiments page. Scroll to the bottom and validate that Model Artifacts have been stored. 
+Open the related experiment run in the Experiments page. Scroll to the bottom and validate that Model Artifacts have been stored.
 
 7. Click on the Model folder. On the right side the UI will automatically present an option to register the model. Click on the "Register Model" icon.
 
-8. Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry. 
+8. Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry.
 
 9. Open the registered model and validate its metadata. Notice that each model is assigned a Version ID. Next, click on the "Deploy" icon. Select the PRD project from the dropdown. This will automatically create a CML Model Endpoint in "PRD" and deploy the model from the "DEV" project.
 Enter the below dictionary in the "Example Input" section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
