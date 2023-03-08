@@ -56,11 +56,19 @@ Select a Python runtime for the project with version 3.7 or higher.
 
 #### 2. Install the requirements in the DEV CML Project.
 
-Open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Leave Spark Add On untoggled. A basic resource profile with 1 vCPU and 2 GiB Mem is enough. No GPU's required.
+Open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Leave the Spark Add On option unchecked.
+
+![alt text](img/mlflow_step4.png)
+
+![alt text](img/mlflow_step5.png)
+
+A basic resource profile with 1 vCPU and 2 GiB Mem is enough. No GPU's required.
+
+![alt text](img/mlflow_step6.png)
+
+Execute ```!pip3 install -r requirements.txt``` in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
 
 
-
-Execute "!pip3 install -r requirements.txt" in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
 
 3. Run your first experiment: open the "Experiments" tab and create a new experiment with name "wine-quality-test". Then open "code/01_Experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
 
