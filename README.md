@@ -68,24 +68,64 @@ A basic resource profile with 1 vCPU and 2 GiB Mem is enough. No GPU's required.
 
 Execute ```!pip3 install -r requirements.txt``` in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
 
+![alt text](img/mlflow_step7.png)
+
+![alt text](img/mlflow_step8.png)
+
+#### 3. Run Your First MLFlow Experiment
+
+Open the "Experiments" tab and create a new experiment named ```wine-quality-test```.
+
+![alt text](img/mlflow_step10.png)
+
+![alt text](img/mlflow_step11.png)
+
+![alt text](img/mlflow_step12.png)
+
+Next, open "code/01_Experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
+
+![alt text](img/mlflow_step13.png)
+
+![alt text](img/mlflow_step14.png)
+
+Navigate back to the Experiments tab, locate the "wine-quality-test" experiment and validate that a new Experiment Run has been logged.
+
+![alt text](img/mlflow_step15.png)
+
+![alt text](img/mlflow_step16.png)
+
+![alt text](img/mlflow_step17.png)
+
+Scroll down to the Artifacts section. Click on "Model" in the "Artifacts" section. Notice that this is empty. This is because we have not logged the model related to this Experiment Run.
+
+Go back to your Session and execute ```02_Experiment_log_model.py```. Notice that the script is almost identical to "01_Experiment.py" with the exception for line 71. This is where the mlflow API is used to log the model i.e. store model artifacts in the associated Experiment.
+
+![alt text](img/mlflow_step18.png)
+
+![alt text](img/mlflow_step19.png)
+
+Validate that a second Experiment Run has been added in the Experiments page. Open the Run, scroll down and validate that Model Artifacts have been logged.
+
+![alt text](img/mlflow_step20.png)
+
+![alt text](img/mlflow_step21.png)
+
+#### 4. Register and Deploy Your First MLFlow Model
+
+Navigate back to the Projects Homepage and create a new empty project named "PRD". Later, we will deploy the model here.
+
+Next, navigate back to the Experiments tab. Locate your experiment and click on the Model folder. On the right side the UI will automatically present an option to register the model. Click on the "Register Model" icon.
+
+![alt text](img/mlflow_step22.png)
+
+Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry. Open the registered model and validate its metadata. Notice that each model is assigned a Version ID.
+
+![alt text](img/mlflow_step23.png)
 
 
-3. Run your first experiment: open the "Experiments" tab and create a new experiment with name "wine-quality-test". Then open "code/01_Experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
+Next, click on the ```Deploy``` icon. Select the ```PRD``` project from the dropdown. This will automatically create a CML Model Endpoint in ```PRD``` and deploy the model from the ```DEV``` project.
 
-4. Navigate back to the Experiments tab, locate the "wine-quality-test" experiment and finally open the Artifacts section. Click on the latest experiment link and you will land into the Experiment Details page. Scroll to the bottom, click on "Model" in the "Artifacts" section.
-
-5. Navigate back to the Projects Homepage and create a new empty project named "PRD".
-
-6. Navigate back into the "DEV" project. In the same CML Session execute the "02_Experiment_log_model.py" script. Go to the Experiments page and validate that you have a new Experiment run.
-Notice that the script is almost identical to "01_Experiment.py" with the exception for line 71. This is where the mlflow API is used to log the model i.e. store model artifacts in the associated Experiment.
-Open the related experiment run in the Experiments page. Scroll to the bottom and validate that Model Artifacts have been stored.
-
-7. Click on the Model folder. On the right side the UI will automatically present an option to register the model. Click on the "Register Model" icon.
-
-8. Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry.
-
-9. Open the registered model and validate its metadata. Notice that each model is assigned a Version ID. Next, click on the "Deploy" icon. Select the PRD project from the dropdown. This will automatically create a CML Model Endpoint in "PRD" and deploy the model from the "DEV" project.
-Enter the below dictionary in the "Example Input" section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
+Enter the below dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
 
 ```
 {
@@ -95,7 +135,7 @@ Enter the below dictionary in the "Example Input" section. Feel free to choose a
 }  
 ```
 
-10. Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
+Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
 
 
 ## API Reference
@@ -108,37 +148,39 @@ The MLflow library is available in CML Sessions without you having to install it
 provides a UI for later visualizing the results. MLflow tracking lets you log and query
 experiments using the following logging functions:
 
-● mlflow.create_experiment()creates a new experiment and returns its ID. Runs
+● ```mlflow.create_experiment()``` creates a new experiment and returns its ID. Runs
 can be launched under the experiment by passing the experiment ID to
 mlflow.start_run.
 Cloudera recommends that you create an experiment to organize your runs. You can
 also create experiments using the UI.
 
-● mlflow.set_experiment() sets an experiment as active. If the experiment does not
+● ```mlflow.set_experiment()``` sets an experiment as active. If the experiment does not
 exist, mlflow.set_experiment creates a new experiment. If you do not wish to use
 the set_experiment method, default experiment is selected.
 Cloudera recommends that you set the experiment using mlflow.set_experiment.
 
-● mlflow.start_run() returns the currently active run (if one exists), or starts a new
+● ```mlflow.start_run()``` returns the currently active run (if one exists), or starts a new
 run and returns a mlflow.ActiveRun object usable as a context manager for the
 current run. You do not need to call start_run explicitly: calling one of the logging
 functions with no active run automatically starts a new one.
 
-● mlflow.end_run() ends the currently active run, if any, taking an optional run status.
+● ```mlflow.end_run()``` ends the currently active run, if any, taking an optional run status.
 
-● mlflow.active_run() returns a mlflow.entities.Run object corresponding to
+● ```mlflow.active_run()``` returns a mlflow.entities.Run object corresponding to
 the currently active run, if any.
 Note: You cannot access currently-active run attributes (parameters, metrics, etc.)
 through the run returned by mlflow.active_run. In order to access such attributes,
 use the mlflow.tracking.MlflowClient as follows:
-client = mlflow.tracking.MlflowClient()
-data = client.get_run(mlflow.active_run().info.run_id).data
 
-● mlflow.log_param() logs a single key-value parameter in the currently active run.
+```client = mlflow.tracking.MlflowClient()
+data = client.get_run(mlflow.active_run().info.run_id).data
+```
+
+● ```mlflow.log_param()``` logs a single key-value parameter in the currently active run.
 The key and value are both strings. Use mlflow.log_params() to log multiple
 parameters at once.
 
-● mlflow.log_metric() logs a single key-value metric for the current run. The value
+● ```mlflow.log_metric()``` logs a single key-value metric for the current run. The value
 must always be a number. MLflow remembers the history of values for each metric. Use
 mlflow.log_metrics()to log multiple metrics at once.
 Parameters:
@@ -150,17 +192,17 @@ SQLAlchemy store replaces +/- Infinity with max / min float values.
 Syntax - mlflow.log_metrics(metrics: Dict[str, float], step:
 Optional[int] = None) → None
 
-● mlflow.set_tag() sets a single key-value tag in the currently active run. The key
+● ```mlflow.set_tag()``` sets a single key-value tag in the currently active run. The key
 and value are both strings. Use mlflow.set_tags() to set multiple tags at once.
 
-● mlflow.log_artifact() logs a local file or directory as an artifact, optionally taking
+● ```mlflow.log_artifact()``` logs a local file or directory as an artifact, optionally taking
 an artifact_path to place it within the run’s artifact URI. Run artifacts can be organized
 into directories, so you can place the artifact in a directory this way.
 
-● mlflow.log_artifacts() logs all the files in a given directory as artifacts, again
+● ```mlflow.log_artifacts()``` logs all the files in a given directory as artifacts, again
 taking an optional artifact_path.
 
-● mlflow.get_artifact_uri() returns the URI that artifacts from the current run
+● ```mlflow.get_artifact_uri()``` returns the URI that artifacts from the current run
 should be logged to.
 For more information on MLflow API commands used for tracking, see MLflow Tracking
 
