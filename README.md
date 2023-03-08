@@ -114,14 +114,17 @@ Validate that a second Experiment Run has been added in the Experiments page. Op
 
 Navigate back to the Projects Homepage and create a new empty project named "PRD". Later, we will deploy the model here.
 
-Next, navigate back to the Experiments tab. Locate your experiment and click on the Model folder. On the right side the UI will automatically present an option to register the model. Click on the "Register Model" icon.
+Next, navigate back to the Experiments tab. Locate your experiment and click on the ```Model``` folder. On the right side the UI will automatically present an option to register the model. Click on the "Register Model" icon. Provide a Name in the form and then click "ok".
 
 ![alt text](img/mlflow_step22.png)
 
-Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry. Open the registered model and validate its metadata. Notice that each model is assigned a Version ID.
-
 ![alt text](img/mlflow_step23.png)
 
+Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry. Open the registered model and validate its metadata. Notice that each model is assigned a Version ID.
+
+![alt text](img/mlflow_step24.png)
+
+![alt text](img/mlflow_step25.png)
 
 Next, click on the ```Deploy``` icon. Select the ```PRD``` project from the dropdown. This will automatically create a CML Model Endpoint in ```PRD``` and deploy the model from the ```DEV``` project.
 
