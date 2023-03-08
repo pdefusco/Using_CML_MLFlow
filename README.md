@@ -1,6 +1,7 @@
-# ML Flow Experiments in CML
+# Using ML Flow in CML
 
 This project is a CML Quickstart for ML Flow Experiments based on the Release Guide that can be downloaded at this [link](https://docs.cloudera.com/cdp-public-cloud-preview-features/cloud/pub-ml-experiments-with-mlflow/pub-ml-experiments-with-mlflow.pdf).
+
 
 ## Overview
 
@@ -24,7 +25,53 @@ Sessions. In Projects that have existing Experiments created using the previous 
 can continue to view these existing Experiments. New Projects will use the new Experiments
 feature.
 
-## CML Experiment Tracking through MLflow API
+
+## CML Experiment Tracking and Model Deployment
+
+### Requirements
+
+To reproduce this quickstart you need:
+
+1. A CML Workspace on Azure, AWS or Private Cloud
+
+2. Although very code changes are required, familiarity with Python is recommended
+
+
+## Instructions
+
+1. Create a CML Project using this github repository. Name the project "DEV".
+
+2. Install the requirements in the DEV CML Project. Open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Execute "!pip3 install -r requirements.txt" in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
+
+3. Run your first experiment: open the "Experiments" tab and create a new experiment with name "wine-quality-test". Then open "code/01_Experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
+
+4. Navigate back to the Experiments tab, locate the "wine-quality-test" experiment and finally open the Artifacts section. Click on the latest experiment link and you will land into the Experiment Details page. Scroll to the bottom, click on "Model" in the "Artifacts" section.
+
+5. Navigate back to the Projects Homepage and create a new empty project named "PRD".
+
+6. Navigate back into the "DEV" project. In the same CML Session execute the "02_Experiment_log_model.py" script. Go to the Experiments page and validate that you have a new Experiment run. 
+Notice that the script is almost identical to "01_Experiment.py" with the exception for line 71. This is where the mlflow API is used to log the model i.e. store model artifacts in the associated Experiment.
+Open the related experiment run in the Experiments page. Scroll to the bottom and validate that Model Artifacts have been stored. 
+
+7. Click on the Model folder. On the right side the UI will automatically present an option to register the model. Click on the "Register Model" icon.
+
+8. Exit out of the DEV Project and navigate to the Model Registry landing page. Validate that the model has now been added to the Registry. 
+
+9. Open the registered model and validate its metadata. Notice that each model is assigned a Version ID. Next, click on the "Deploy" icon. Select the PRD project from the dropdown. This will automatically create a CML Model Endpoint in "PRD" and deploy the model from the "DEV" project.
+Enter the below dictionary in the "Example Input" section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
+
+```
+{
+"input": [
+    [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4]
+  ]
+}  
+```
+
+10. Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
+
+
+## API Reference
 
 Note: CML currently supports only Python for experiment tracking.
 
@@ -90,35 +137,6 @@ taking an optional artifact_path.
 should be logged to.
 For more information on MLflow API commands used for tracking, see MLflow Tracking
 
-## Requirements
-
-To reproduce this quickstart you need:
-
-1. A CML Workspace on Azure, AWS or Private Cloud
-
-2. Although very code changes are required, familiarity with Python is recommended
-
-## Instructions
-
-1. Install requirements: open a CML Session with a runtime option of Python 3.7 or above and Workbench Editor. Execute "!pip3 install -r requirements.txt" in the prompt (optionally running "pip3 install -r requirements.txt" from the terminal window).
-
-2. Run your first experiment: open the "Experiments" tab and create a new experiment with name "wine-quality-test". Then open "code/experiment.py" in the Workbench Editor in your CML Session and run the entire script by pressing the "play" button at the top.
-
-3. Navigate back to the Experiments tab, locate the "wine-quality-test" experiment and finally open the Artifacts section. Click on the latest experiment link and you will land into the Experiment Details page. Scroll to the bottom, click on "Model" in the "Artifacts" section and copy the value for the "logged_model" variable.
-
-4. In the Workbench Editor, create a new file name ".gitignore" and add "!.experiments" in it.
-
-5. Navigate to the CML Models page and create a new Model. Choose the "mlpredict.py" script as base file and set the "predict" function in the model configurations. Enter the following dictionary in the "Example Input" section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
-
-```
-{
-"input": [
-    [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4]
-  ]
-}  
-```
-
-6. Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
 
 ## Related Demos and Tutorials
 
