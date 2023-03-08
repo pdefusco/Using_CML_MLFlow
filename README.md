@@ -130,15 +130,13 @@ Next, click on the ```Deploy``` icon. Select the ```PRD``` project from the drop
 
 ![alt text](img/mlflow_step26.png)
 
-Fill out the Model Deployment options as shown below. Ensure to select
+Fill out the Model Deployment options as shown below. Ensure to select the "Deploy Registered Model" option.
 
 ![alt text](img/mlflow_step27.png)
 
 ![alt text](img/mlflow_step28.png)
 
-![alt text](img/mlflow_step29.png)
-
-Enter the below dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
+Enter the following dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
 
 ```
 {
@@ -147,6 +145,8 @@ Enter the below dictionary in the ```Example Input``` section. Feel free to choo
   ]
 }  
 ```
+
+![alt text](img/mlflow_step29.png)
 
 Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
 
