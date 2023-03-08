@@ -126,6 +126,8 @@ Exit out of the DEV Project and navigate to the Model Registry landing page. Val
 
 ![alt text](img/mlflow_step25.png)
 
+![alt text](img/mlflow_step26.png)
+
 Next, click on the ```Deploy``` icon. Select the ```PRD``` project from the dropdown. This will automatically create a CML Model Endpoint in ```PRD``` and deploy the model from the ```DEV``` project.
 
 Enter the below dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
