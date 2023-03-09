@@ -230,19 +230,19 @@ Experiment Artifacts are stored under ```/home/cdsw/.experiments``` and can be r
 
 Open the Session Terminal and list the contents of the .experiments folder with the following commands:
 
-Get All Project Experiments:
+* Get All Project Experiments:
 ```ls .experiments```
 
-Get All Experiment Runs by ID for the Experiment:
+* Get All Experiment Runs by ID for the Experiment:
 ```ls .experiments/<your_experiment_id>```
 
-Get Logged Model for the Experiment Run:
+* Get Logged Model for the Experiment Run:
 ```ls .experiments/<your_experiment_id>/<your_experiment_run_id>```
 
-Get Logged Model Artifacts:
+* Get Logged Model Artifacts:
 ```ls .experiments/<your_experiment_id>/<your_experiment_run_id>/model```
 
-Get Logged Model Dependencies:
+* Get Logged Model Dependencies:
 ```ls .experiments/<your_experiment_id>/<your_experiment_run_id>/model/artifacts```
 
 ![alt text](img/mlflow_step38.png)
