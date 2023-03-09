@@ -156,10 +156,12 @@ Once the model is deployed, test the input and validate that the response output
 
 ## Part 2: Using the MLFlow API
 
+MLFlow provides a rich API to automate and iterate through experiments with efficiency. The next few steps will walk you through some of the most important API features to increase your productivity.
 
 
 
-## API Reference
+
+#### API Reference
 
 Note: CML currently supports only Python for experiment tracking.
 
@@ -205,11 +207,11 @@ parameters at once.
 must always be a number. MLflow remembers the history of values for each metric. Use
 mlflow.log_metrics()to log multiple metrics at once.
 Parameters:
-○ key - Metric name (string)
-○ value - Metric value (float). Note that some special values such as +/- Infinity
+* key - Metric name (string)
+* value - Metric value (float). Note that some special values such as +/- Infinity
 may be replaced by other values depending on the store. For example, the
 SQLAlchemy store replaces +/- Infinity with max / min float values.
-○ step - Metric step (int). Defaults to zero if unspecified.
+* step - Metric step (int). Defaults to zero if unspecified.
 Syntax - mlflow.log_metrics(metrics: Dict[str, float], step:
 Optional[int] = None) → None
 
@@ -225,7 +227,8 @@ taking an optional artifact_path.
 
 ● ```mlflow.get_artifact_uri()``` returns the URI that artifacts from the current run
 should be logged to.
-For more information on MLflow API commands used for tracking, see MLflow Tracking
+
+For more information on MLflow API commands used for tracking, see the [MLflow Tracking Documentation](https://mlflow.org/docs/latest/tracking.html).
 
 
 ## Related Demos and Tutorials
