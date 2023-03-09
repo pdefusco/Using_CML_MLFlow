@@ -1,6 +1,6 @@
 import mlflow
 
-mlflow.set_experiment("active-experiment")
+mlflow.set_experiment("example-experiment")
 
 mlflow.start_run()
 

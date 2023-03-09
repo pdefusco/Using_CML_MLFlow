@@ -133,7 +133,7 @@ Fill out the Model Deployment options as shown below. Ensure to select the "Depl
 
 ![alt text](img/mlflow_step28.png)
 
-Enter the following dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. The smallest available resource profile will suffice. Deploy the model.
+Enter the following dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. A small Resource Profile with 1 vCPU / 2 GiB Mem will suffice. Deploy the model.
 
 ```
 {
@@ -156,9 +156,27 @@ Once the model is deployed, test the input and validate that the response output
 
 ## Part 2: Using the MLFlow API
 
-MLFlow provides a rich API to automate and iterate through experiments with efficiency. The next few steps will walk you through some of the most important API features to increase your productivity.
+MLFlow provides a rich API to automate and iterate through experiments with efficiency. This section will walk you through some of the most important API features to increase your productivity.
 
+#### Active Experiments
 
+In script ```01_Experiment.py``` in part 1 we launched an Experiment by first setting the Experiment name (line 27) with ```mlflow.set_experiment()``` and then starting an Experiment Run (line 52) with ```mlflow.start_run()```.
+
+You can set the Experiment Name from the MLFlow Experiments UI or programmatically as aforementioned. If you don't set the Experiment Name the Experiment will be logged as ```Default```.
+
+We will explore these concepts in more detail. Open script ```01_Active_Experiment.py``` and familiarize yourself with the code. Notice the following:
+
+* Line 1: one must always use ```import mlflow```. The mlflow package does not need to be installed with pip and is already present in every CML Project.
+
+* Line 3: the Experiment name is set with ```mlflow.set_experiment("example-experiment")```. This will be the entry for the Experiment in the Experiments Landing Page. The Experiment is not yet active at this stage.
+
+* Line 5: the Experiment Run is launched with ```mlflow.start_run()```.
+
+* Line 7: the Active Experiment Run provides a Run Context with useful parameters for managing experiments such as a Run ID: ```run = mlflow.active_run()```. This is output with ```print("Active run_id: {}".format(run.info.run_id))```.
+
+* Line 9: the Active Experiment Run context is terminated with ```mlflow.end_run()```.
+
+Experiment Runs must always be terminated before a new Run can be launched for the same Experiment. 
 
 
 #### API Reference
