@@ -184,12 +184,16 @@ Experiment Runs must always be terminated before a new Run can be launched for t
 
 Experiment Runs allow you to log a rich set of metadata and attachments by adding a few API calls to the Experiment Run context.
 
-Open ```02_Log_Artifacts_Tags.py``` and familiarize yourself with the code.
+Open ```02_Log_Artifacts_Tags.py``` and familiarize yourself with the code. Notice the following:
 
 * Lines 5 - 14: two files named "data/json.json" and "data/features.txt" are created.
+
 * Lines 16 - 20: a dictionary of tags is created.
+
 * Line 22: the Experiment Run is launched.
+
 * Line 24: the tags contained in the tags dictionary is attached to the Experiment Run via ```mlflow.set_tags(tags)```
+
 * Line 27: the files contained in the "data" folder are attached to the Experiment Run artifacts under the "states" folder.
 
 Notice that the ```mlflow.set_experiment()``` method is not used. As a consequence, the Experiment Run will be applied to the last set Experiment rather than "Default".
@@ -201,6 +205,40 @@ Execute ```02_Log_Artifacts_Tags.py``` in a Session with the Workbench Editor an
 ![alt text](img/mlflow_step35.png)
 
 ![alt text](img/mlflow_step36.png)
+
+#### Analyzing Previous Experiments
+
+The MLFlow API allows you to read Experiment data into a Session. You can use this functionality to automate processes resulting from Experiments.
+
+Navigate to the Experiments Landing page, open your Experiment and copy the Experiment ID.
+
+![alt text](img/mlflow_step37.png)
+
+Open ```03_Get_Experiment.py``` and familiarize yourself with the code. Notice the following:
+
+* Line 3: You can use the MLFlowClient ```client = mlflow.tracking.MlflowClient()``` to interact with MLFlow Experiments and Registry programmatically.
+
+* Line 6: Paste the Experiment ID in the variable.
+
+* Line 7: The Experiment metadata is parsed via the Client with ```experiment=client.get_experiment(experiment_id)```.
+
+* Lines 9 - 13: The Experiment metadata is output.
+
+#### Retrieving Models from Experiments
+
+Experiment Artifacts are stored under ```/home/cdsw/.experiments``` and can be retrieved via the MLFlow API.
+
+Open the Session Terminal and list the contents of the .experiments folder with the following commands:
+
+```ls .experiments```
+```ls .experiments/<your_experiment_id>```
+```ls .experiments/<your_experiment_id>/<your_experiment_run_id>```
+```ls .experiments/<your_experiment_id>/<your_experiment_run_id>/model```
+```ls .experiments/<your_experiment_id>/<your_experiment_run_id>/model/artifacts```
+
+![alt text](img/mlflow_step38.png)
+
+The folder contains subfolders named after each Experiment ID.
 
 
 #### API Reference
