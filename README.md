@@ -257,8 +257,6 @@ Open ```04_Predict_Batch.py``` and familiarize yourself with the code. Notice th
 
 * Line 11: The Model's ```predict``` method is used to score the input dataset.
 
-
-
 #### API Reference
 
 Note: CML currently supports only Python for experiment tracking.
@@ -327,6 +325,16 @@ taking an optional artifact_path.
 should be logged to.
 
 For more information on MLflow API commands used for tracking, see the [MLflow Tracking Documentation](https://mlflow.org/docs/latest/tracking.html).
+
+#### Framework Based MLFlow API's
+
+#### Automated Model Registration via MLFlow API
+
+
+
+## Part 3: Automating MLOps with MLFlow
+
+
 
 
 ## Related Demos and Tutorials
