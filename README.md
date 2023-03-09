@@ -271,8 +271,17 @@ Update the value for the ```registered_model_name``` parameter at line 71 with "
 
 ![alt text](img/mlflow_step40.png)
 
-#### Retrieving Models from Experiments
+#### Working with Iceberg and the Spark MLFlow API
 
+So far you have used the mlflow.sklearn module to leverage built-in integrations between MLFlow and the Scikit-Learn library that streamline experimentation and modeling efforts. The mlflow.spark module provides an API for logging and loading Spark MLlib models with similar advantages.   
+
+In addition, CML supports Iceberg via CML Runtimes. Iceberg is a high-performance format for huge analytic tables. Iceberg brings the reliability and simplicity of SQL tables to big data, while making it possible for engines like Spark, Trino, Flink, Presto, Hive and Impala to safely work with the same tables, at the same time.
+
+In the context of MLOps, Iceberg introduces Time Travel and Rollback. Time-travel enables reproducible queries that use exactly the same table snapshot, or lets users easily examine changes. Version rollback allows users to quickly correct problems by resetting tables to a good state. In the context of ML Ops, these features make training datasets and models reproducible in a simple and straightforward manner.
+
+In this example we will use MLFlow to log PySpark Experiments and Models. We will see Iceberg Time Travel in action and log the Iceberg Snapshot ID for each Experiment.
+
+Open ```06_Spark_Iceberg_Example.py``` and familiarize yourself with the code. 
 
 
 #### API Reference
