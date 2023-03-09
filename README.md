@@ -178,17 +178,29 @@ We will explore these concepts in more detail. Open script ```01_Active_Experime
 
 Experiment Runs must always be terminated before a new Run can be launched for the same Experiment.
 
+![alt text](img/mlflow_step33.png)
+
 #### Logging Artifacts and Tags
 
 Experiment Runs allow you to log a rich set of metadata and attachments by adding a few API calls to the Experiment Run context.
 
-Open "02_Log_Artifacts_Tags.py" and familiarize yourself with the code.
+Open ```02_Log_Artifacts_Tags.py``` and familiarize yourself with the code.
 
 * Lines 5 - 14: two files named "data/json.json" and "data/features.txt" are created.
 * Lines 16 - 20: a dictionary of tags is created.
 * Line 22: the Experiment Run is launched.
 * Line 24: the tags contained in the tags dictionary is attached to the Experiment Run via ```mlflow.set_tags(tags)```
 * Line 27: the files contained in the "data" folder are attached to the Experiment Run artifacts under the "states" folder.
+
+Notice that the ```mlflow.set_experiment()``` method is not used. As a consequence, the Experiment Run will be applied to the last set Experiment rather than "Default".
+
+Execute ```02_Log_Artifacts_Tags.py``` in a Session with the Workbench Editor and validate the results in the Experiments landing page. Notice that both the Tags and Artifacts have been attached to the Experiment Run.
+
+![alt text](img/mlflow_step34.png)
+
+![alt text](img/mlflow_step35.png)
+
+![alt text](img/mlflow_step36.png)
 
 
 #### API Reference
