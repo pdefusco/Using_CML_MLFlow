@@ -46,20 +46,20 @@ if __name__ == "__main__":
     ["id", "text", "label"],
   )
 
-  training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
+  #training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
   spark.sql("SELECT * FROM spark_catalog.default.training").show()
 
-  #training_df = spark.read\
-    #  .option("snapshot-id", 1366768287190112582)\ #Replace Snapshot ID here
-    #  .table("spark_catalog.default.training")
+  #Replace Snapshot ID here
+  training_df = spark.read.option("snapshot-id", 4576831803588253082).table("spark_catalog.default.training")
 
   ### SHOW TABLE HISTORY AND SNAPSHOTS
   spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
   spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
   ### ICEBERG INSERT DATA - APPEND FROM DATAFRAME
-  #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training").sample(fraction=0.3, seed=3)
+  #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training")
   #temp_df.writeTo("spark_catalog.default.training").append()
+  #training_df = spark.sql("SELECT * FROM spark_catalog.default.training")
 
   #spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
   #spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
@@ -67,11 +67,12 @@ if __name__ == "__main__":
   snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
   committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0]
   parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
-
+  
   tags = {
-      "iceberg_snapshot_id": snapshot_id,
-      "iceberg_snapshot_committed_at": committed_at.strftime('%m/%d/%Y'),
-      "iceberg_parent_id": parent_id,
+      "iceberg_snapshot_id": 4576831803588253082,
+      #"iceberg_snapshot_committed_at": committed_at.strftime('%m/%d/%Y'),
+      #"iceberg_parent_id": parent_id,
+      "table_count": training_df.count()
   }
 
   ### MLFLOW EXPERIMENT RUN
