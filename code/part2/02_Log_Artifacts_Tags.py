@@ -13,6 +13,15 @@ with open("data/data.json", 'w', encoding='utf-8') as f:
 with open("data/features.txt", 'w') as f:
     f.write(features)
 
-# Write all files in "data" to root artifact_uri/states
+tags = {
+    "engineering": "ML Platform",
+    "release.candidate": "RC1",
+    "release.version": "2.2.0",
+}
+
 with mlflow.start_run():
-    mlflow.log_artifacts("data", artifact_path="states")
+  # Set a batch of tags
+  mlflow.set_tags(tags)    
+    
+  # Write all files in "data" to root artifact_uri/states
+  mlflow.log_artifacts("data", artifact_path="states")
