@@ -267,6 +267,9 @@ Open ```05_Auto_Model_Registration.py``` and familiarize yourself with the code.
 
 Update the value for the ```registered_model_name``` parameter at line 71 with "Auto-Deployed Model". Then, execute the script from your Session with Workbench Editor. After a few moments navigate to the MLFlow Registry and validate that the model has been registered.
 
+![alt text](img/mlflow_step39.png)
+
+![alt text](img/mlflow_step40.png)
 
 #### Retrieving Models from Experiments
 
