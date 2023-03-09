@@ -26,10 +26,7 @@ CML is compatible with the MLflow tracking API and makes use of the MLflow clien
 the default method to log experiments. Existing projects with existing experiments are still
 available and usable.
 
-
-## CML Experiment Tracking and Model Deployment
-
-### Tutorial Requirements
+## Tutorial Requirements
 
 To reproduce this quickstart you need:
 
@@ -38,7 +35,7 @@ To reproduce this quickstart you need:
 2. Although very code changes are required, familiarity with Python is recommended
 
 
-## Instructions
+## Part 1: CML Experiment Tracking and Model Deployment
 
 #### 1. Create a CML Project using this Github repository. Name the project "DEV".
 
@@ -50,7 +47,7 @@ Use the ```https://github.com/pdefusco/Using_CML_MLFlow.git``` URL to clone the 
 
 ![alt text](img/mlflow_step2.png)
 
-Select a Python runtime for the project with version 3.7 or higher.
+Select a Python runtime for the project with version 3.7 or above.
 
 ![alt text](img/mlflow_step3.png)
 
@@ -62,7 +59,7 @@ Open a CML Session with a runtime option of Python 3.7 or above and Workbench Ed
 
 ![alt text](img/mlflow_step5.png)
 
-A basic resource profile with 1 vCPU and 2 GiB Mem is enough. No GPU's required.
+A basic resource profile with 1 vCPU and 2 GiB Mem or more is enough. No GPU's required.
 
 ![alt text](img/mlflow_step6.png)
 
@@ -155,6 +152,11 @@ Once the model is deployed, test the input and validate that the response output
 ![alt text](img/mlflow_step31.png)
 
 ![alt text](img/mlflow_step32.png)
+
+
+## Part 2: Using the MLFlow API
+
+
 
 
 ## API Reference
