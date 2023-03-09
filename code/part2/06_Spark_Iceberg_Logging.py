@@ -23,7 +23,7 @@ from pyspark.ml.feature import HashingTF, Tokenizer
 
 if __name__ == "__main__":
 
-  spark = SparkSession.builder.appName("Iceberg-Spark-MLFlow")\
+  spark = SparkSession.builder.appName("Iceberg-Spark-MLFlow").master("local[*]")\
     .config("spark.jars.packages", "org.mlflow:mlflow-spark:2.2.1")\
     .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-2")\
     .config("spark.yarn.access.hadoopFileSystems","s3a://go01-demo")\
@@ -35,23 +35,23 @@ if __name__ == "__main__":
     .getOrCreate()
 
   mlflow.set_experiment("sparkml-experiment")
-
+  
   training_df = spark.createDataFrame(
-      [
-          (0, "a b c d e spark", 1.0),
-          (1, "b d", 0.0),
-          (2, "spark f g h", 1.0),
-          (3, "hadoop mapreduce", 0.0),
-      ],
-      ["id", "text", "label"],
+    [
+        ("0", "a b c d e spark", 1.0),
+        ("1", "b d", 0.0),
+        ("2", "spark f g h", 1.0),
+        ("3", "hadoop mapreduce", 0.0),
+    ],
+    ["id", "text", "label"],
   )
 
-  training_df.writeTo("spark_catalog.default.training_data").using("iceberg").createOrReplace()
-  spark.sql("SELECT * FROM spark_catalog.default.training_data").show()
+  training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
+  spark.sql("SELECT * FROM spark_catalog.default.training").show()
 
   ### SHOW TABLE HISTORY AND SNAPSHOTS
-  spark.read.format("iceberg").load("spark_catalog.default.training_data.history").show(20, False)
-  spark.read.format("iceberg").load("spark_catalog.default.training_data.snapshots").show(20, False)
+  spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
+  spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
   ### ICEBERG INSERT DATA - APPEND FROM DATAFRAME
   #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training_data").sample(fraction=0.3, seed=3)
@@ -60,9 +60,9 @@ if __name__ == "__main__":
   #spark.read.format("iceberg").load("spark_catalog.default.training_data.history").show(20, False)
   #spark.read.format("iceberg").load("spark_catalog.default.training_data.snapshots").show(20, False)
 
-  snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training_data.snapshots").select("snapshot_id").tail(1)[0][0]
-  committed_at = spark.read.format("iceberg").load("spark_catalog.default.home_credit_credit_card_balance.snapshots").select("committed_at").tail(1)[0][0]
-  parent_id = spark.read.format("iceberg").load("spark_catalog.default.home_credit_credit_card_balance.snapshots").select("parent_id").tail(1)[0][0]
+  snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
+  committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0]
+  parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
 
   tags = {
       "iceberg_snapshot_id": snapshot_id,
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
     lr = LogisticRegression(maxIter=maxIter, regParam=regParam)
     pipeline = Pipeline(stages=[tokenizer, hashingTF, lr])
-    model = pipeline.fit(training)
+    model = pipeline.fit(training_df)
 
     mlflow.log_param("maxIter", maxIter)
     mlflow.log_param("regParam", regParam)
