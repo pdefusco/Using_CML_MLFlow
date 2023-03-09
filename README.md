@@ -247,7 +247,15 @@ Get Logged Model Dependencies:
 
 ![alt text](img/mlflow_step38.png)
 
+You can retrieve Models and Artifacts programmatically via the MLFlow API.
 
+Open ```04_Predict_Batch.py``` and familiarize yourself with the code. Notice the following:
+
+* Line 3: Replace the current model path with a path from your project.
+
+* Line 5: The Logged Model is loaded with: ```loaded_model=mlflow.pyfunc.load_model(logged_model)```
+
+* Line 11: The Model's ```predict``` method is used to score the input dataset.
 
 #### API Reference
 
