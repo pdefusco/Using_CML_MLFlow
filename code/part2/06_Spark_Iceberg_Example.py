@@ -26,7 +26,7 @@ if __name__ == "__main__":
     .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-2")\
     .config("spark.yarn.access.hadoopFileSystems","s3a://go01-demo")\
     .getOrCreate()
-  
+
   mlflow.set_experiment("sparkml-experiment")
 
   training = spark.createDataFrame(
@@ -38,12 +38,12 @@ if __name__ == "__main__":
       ],
       ["id", "text", "label"],
   )
-  
+
   with mlflow.start_run() as run:
-  
+
     maxIter=10
     regParam=0.001
-  
+
     tokenizer = Tokenizer(inputCol="text", outputCol="words")
     hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
     lr = LogisticRegression(maxIter=maxIter, regParam=regParam)
@@ -54,8 +54,8 @@ if __name__ == "__main__":
     mlflow.log_param("regParam", regParam)
 
     #prediction = model.transform(test)
-    
+
     mlflow.spark.log_model(model, "iceberg-sparkml-model", registered_model_name="IcebergSparkMLModel")
 
-    
+
 #spark.stop()
