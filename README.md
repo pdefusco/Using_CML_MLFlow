@@ -185,6 +185,10 @@ Experiment Runs allow you to log a rich set of metadata and attachments by addin
 Open "02_Log_Artifacts_Tags.py" and familiarize yourself with the code.
 
 * Lines 5 - 14: two files named "data/json.json" and "data/features.txt" are created.
+* Lines 16 - 20: a dictionary of tags is created.
+* Line 22: the Experiment Run is launched.
+* Line 24: the tags contained in the tags dictionary is attached to the Experiment Run via ```mlflow.set_tags(tags)```
+* Line 27: the files contained in the "data" folder are attached to the Experiment Run artifacts under the "states" folder.
 
 
 #### API Reference
