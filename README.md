@@ -176,7 +176,15 @@ We will explore these concepts in more detail. Open script ```01_Active_Experime
 
 * Line 9: the Active Experiment Run context is terminated with ```mlflow.end_run()```.
 
-Experiment Runs must always be terminated before a new Run can be launched for the same Experiment. 
+Experiment Runs must always be terminated before a new Run can be launched for the same Experiment.
+
+#### Logging Artifacts and Tags
+
+Experiment Runs allow you to log a rich set of metadata and attachments by adding a few API calls to the Experiment Run context.
+
+Open "02_Log_Artifacts_Tags.py" and familiarize yourself with the code.
+
+* Lines 5 - 14: two files named "data/json.json" and "data/features.txt" are created.
 
 
 #### API Reference
