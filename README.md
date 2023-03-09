@@ -281,7 +281,23 @@ In the context of MLOps, Iceberg introduces Time Travel and Rollback. Time-trave
 
 In this example we will use MLFlow to log PySpark Experiments and Models. We will see Iceberg Time Travel in action and log the Iceberg Snapshot ID for each Experiment.
 
-Open ```06_Spark_Iceberg_Example.py``` and familiarize yourself with the code. 
+Open ```06_Spark_Iceberg_Example.py``` and familiarize yourself with the code. Notice the following:
+
+* Lines 26 - 35: The Spark Session is created with Iceberg configurations.
+* Line 49: The simple Spark Dataframe is saved as an Iceberg table with the Iceberg Dataframe API.
+* Lines 53 - 65: Iceberg Snapshots and History are queried to obtain Iceberg Snapshot ID, Snapshot Parent ID, and Snapshot Commit Time.
+* Lines 67 - 71: The three Iceberg Snapshot values are saved as MLFlow tags.  
+* Lines 74 - 91: The MLFlow Experiment Run is launched including logging of the aforementioned tags.
+
+Execute the script in your Session with Workbench Editor. Then, navigate to the Experiments tab and validate the Run.
+
+Now modify ```06_Spark_Iceberg_Example.py``` by first commenting out line 49 and then uncommenting lines 57, 58, 60, and 61. Execute the script again.
+
+This will result in a SQL INSERT being run against the same table you created in the previous run. Iceberg will create a new Snapshot of the table and use the previous Snapshot ID as the Parent Snapshot ID.
+
+Navigate back to the Experiments tab. Validate that a second Experiment has been run and among the Iceberg MLFlow tags, the Snapshot ID logged in the first Experiment matches with the Parent ID of the second.  
+
+
 
 
 #### API Reference

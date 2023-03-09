@@ -35,7 +35,7 @@ if __name__ == "__main__":
     .getOrCreate()
 
   mlflow.set_experiment("sparkml-experiment")
-  
+
   training_df = spark.createDataFrame(
     [
         ("0", "a b c d e spark", 1.0),
@@ -46,19 +46,23 @@ if __name__ == "__main__":
     ["id", "text", "label"],
   )
 
-  #training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
+  training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
   spark.sql("SELECT * FROM spark_catalog.default.training").show()
+
+  #training_df = spark.read\
+    #  .option("snapshot-id", 1366768287190112582)\ #Replace Snapshot ID here
+    #  .table("spark_catalog.default.training")
 
   ### SHOW TABLE HISTORY AND SNAPSHOTS
   spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
   spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
   ### ICEBERG INSERT DATA - APPEND FROM DATAFRAME
-  temp_df = spark.sql("SELECT * FROM spark_catalog.default.training").sample(fraction=0.3, seed=3)
-  temp_df.writeTo("spark_catalog.default.training").append()
+  #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training").sample(fraction=0.3, seed=3)
+  #temp_df.writeTo("spark_catalog.default.training").append()
 
-  spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
-  spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
+  #spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
+  #spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
   snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
   committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0]
@@ -87,7 +91,7 @@ if __name__ == "__main__":
 
     #prediction = model.transform(test)
     mlflow.set_tags(tags)
-    
+
   mlflow.end_run()
 
 #spark.stop()
