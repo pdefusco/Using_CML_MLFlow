@@ -46,33 +46,54 @@ if __name__ == "__main__":
     ["id", "text", "label"],
   )
 
-  #training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
-  spark.sql("SELECT * FROM spark_catalog.default.training").show()
+  ##EXPERIMENT 1
 
-  #Replace Snapshot ID here
-  training_df = spark.read.option("snapshot-id", 4576831803588253082).table("spark_catalog.default.training")
+  training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
+  spark.sql("SELECT * FROM spark_catalog.default.training").show()
 
   ### SHOW TABLE HISTORY AND SNAPSHOTS
   spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
   spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
+  snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
+  committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0].strftime('%m/%d/%Y')
+  parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
+
+  ##EXPERIMENT 2
+
   ### ICEBERG INSERT DATA - APPEND FROM DATAFRAME
+
+  # PRE-INSERT
+  #spark.sql("SELECT * FROM spark_catalog.default.training").show()
+
   #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training")
   #temp_df.writeTo("spark_catalog.default.training").append()
   #training_df = spark.sql("SELECT * FROM spark_catalog.default.training")
 
+  # PROST-INSERT
+  #spark.sql("SELECT * FROM spark_catalog.default.training").show()
+
   #spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
   #spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
-  snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
-  committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0]
-  parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
-  
+  #snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
+  #committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0].strftime('%m/%d/%Y')
+  #parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
+
+  ##EXPERIMENT 3
+
+  #Replace Snapshot ID here
+  #snapshot_id = 4576831803588253082
+  #training_df = spark.read.option("snapshot-id", snapshot_id.table("spark_catalog.default.training")
+
+  #committed_at = spark.sql("SELECT committed_at FROM prod.db.training.snapshots WHERE snapshot_id = {};".format(snapshot_id))
+  #parent_id = spark.sql("SELECT parent_id FROM prod.db.training.snapshots WHERE snapshot_id = {};".format(snapshot_id);")
+
   tags = {
-      "iceberg_snapshot_id": 4576831803588253082,
-      #"iceberg_snapshot_committed_at": committed_at.strftime('%m/%d/%Y'),
-      #"iceberg_parent_id": parent_id,
-      "table_count": training_df.count()
+      "iceberg_snapshot_id": snapshot_id,
+      "iceberg_snapshot_committed_at": committed_at,
+      "iceberg_parent_id": parent_id,
+      "row_count": training_df.count()
   }
 
   ### MLFLOW EXPERIMENT RUN

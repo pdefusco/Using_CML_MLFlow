@@ -273,7 +273,7 @@ Update the value for the ```registered_model_name``` parameter at line 71 with "
 
 #### Working with Iceberg and the Spark MLFlow API
 
-So far you have used the mlflow.sklearn module to leverage built-in integrations between MLFlow and the Scikit-Learn library that streamline experimentation and modeling efforts. The mlflow.spark module provides an API for logging and loading Spark MLlib models with similar advantages.   
+So far you have used the mlflow.sklearn module to leverage built-in integrations between MLFlow and the Scikit-Learn library in order to streamline experimentation and modeling efforts. The mlflow.spark module provides an API for logging and loading Spark MLlib models with similar advantages.   
 
 In addition, CML supports Iceberg via CML Runtimes. Iceberg is a high-performance format for huge analytic tables. Iceberg brings the reliability and simplicity of SQL tables to big data, while making it possible for engines like Spark, Trino, Flink, Presto, Hive and Impala to safely work with the same tables, at the same time.
 
