@@ -88,14 +88,14 @@ if __name__ == "__main__":
 
   #committed_at = spark.sql("SELECT committed_at FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).collect()[0][0].strftime('%m/%d/%Y')
   #parent_id = str(spark.sql("SELECT parent_id FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).tail(1)[0][0])
-  
+
   tags = {
       "iceberg_snapshot_id": snapshot_id,
       "iceberg_snapshot_committed_at": committed_at,
       "iceberg_parent_id": parent_id,
       "row_count": training_df.count()
   }
-  
+
   ### MLFLOW EXPERIMENT RUN
   with mlflow.start_run() as run:
 
@@ -116,6 +116,6 @@ if __name__ == "__main__":
 
   mlflow.end_run()
 
-  
-  
+
+
 #spark.stop()

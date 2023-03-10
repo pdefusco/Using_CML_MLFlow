@@ -279,26 +279,48 @@ In addition, CML supports Iceberg via CML Runtimes. Iceberg is a high-performanc
 
 In the context of MLOps, Iceberg introduces Time Travel and Rollback. Time-travel enables reproducible queries that use exactly the same table snapshot, or lets users easily examine changes. Version rollback allows users to quickly correct problems by resetting tables to a good state. In the context of ML Ops, these features make training datasets and models reproducible in a simple and straightforward manner.
 
-In this example we will use MLFlow to log PySpark Experiments and Models. We will see Iceberg Time Travel in action and log the Iceberg Snapshot ID for each Experiment.
+In this example we will run three MLFlow experiments to log PySpark Experiments along with Iceberg Metadata that enables reproducibility.
+
+##### Experiment 1
 
 Open ```06_Spark_Iceberg_Example.py``` and familiarize yourself with the code. Notice the following:
 
 * Lines 26 - 35: The Spark Session is created with Iceberg configurations.
-* Line 49: The simple Spark Dataframe is saved as an Iceberg table with the Iceberg Dataframe API.
-* Lines 53 - 65: Iceberg Snapshots and History are queried to obtain Iceberg Snapshot ID, Snapshot Parent ID, and Snapshot Commit Time.
-* Lines 67 - 71: The three Iceberg Snapshot values are saved as MLFlow tags.  
-* Lines 74 - 91: The MLFlow Experiment Run is launched including logging of the aforementioned tags.
+* Line 39: The simple Spark Dataframe is saved as an Iceberg table with the Iceberg Dataframe API. At line 51 the data is written as an Iceberg table via the Dataframe API v2.
+* Lines 55 - 60: Iceberg Snapshots and History are queried to obtain Iceberg Snapshot ID, Snapshot Parent ID, and Snapshot Commit Time.
+* Lines 92 - 97: The three Iceberg Snapshot values are saved as MLFlow tags.  
+* Lines 100 - 117: The MLFlow Experiment Run is launched including logging of the aforementioned tags.
 
-Execute the script in your Session with Workbench Editor. Then, navigate to the Experiments tab and validate the Run.
+Execute the script in your Session with Workbench Editor. Then, navigate to the Experiments tab and validate the Run. Notice the Iceberg Metadata tags.
 
-Now modify ```06_Spark_Iceberg_Example.py``` by first commenting out line 49 and then uncommenting lines 57, 58, 60, and 61. Execute the script again.
+![alt text](img/mlflow_step41.png)
 
-This will result in a SQL INSERT being run against the same table you created in the previous run. Iceberg will create a new Snapshot of the table and use the previous Snapshot ID as the Parent Snapshot ID.
+##### Expefriment 2
 
-Navigate back to the Experiments tab. Validate that a second Experiment has been run and among the Iceberg MLFlow tags, the Snapshot ID logged in the first Experiment matches with the Parent ID of the second.  
+Modify ```06_Spark_Iceberg_Example.py``` by commenting out lines 51 - 60 under the "Experiment 1" section. Then uncomment lines 67 - 81 under the "Experiment 2" section.
 
+Notice the following:
 
+* Lines 69 - 74: An INSERT is performed.
+* Lines 76 - 77: The INSERT creates a new Iceberg Snapshot which is tracked in the History and SNapshots tables.
+* Lines 79 - 81: As in Experiment 1, Iceberg Snapshot metadata is stored so it can be logged as part of the MLFlow Experiment Run.
 
+Execute the script in your Session with Workbench Editor. Then, navigate to the Experiments tab and validate the Run. Notice that the second Experiment's Iceberg Parent ID matches with the first Experiment's Snapshot ID. Furthermore, notice the table row count has increased by checking the table row count MLFlow Tag.
+
+![alt text](img/mlflow_step42.png)
+
+##### Expefriment 3
+
+Modify ```06_Spark_Iceberg_Example.py``` by commenting out lines 67 - 81 under the "Experiment 1" section. Then uncomment lines 85 - 90 under the "Experiment 3" section.
+
+Notice the following:
+
+* Line 86: Enter the Iceberg Snapshot ID from Experiment 1. You can locate this from the MLFlow Experiments UI.
+* Line 87: The Spark Dataframe is generated with the data as of Experiment 1. In other words, the table is rolled back to its Pre-Insert state.  
+
+Execute the script in your Session with Workbench Editor. Then, navigate to the Experiments tab and validate the Run. Notice that the third Experiment's Iceberg Parent ID is Null again, and the Snapshot ID is the same as the ID logged in Experiment 1. Finally, validate that the table version used was the same as in Experiment 1 by checking the table row count MLFlow Tag.
+
+![alt text](img/mlflow_step43.png)
 
 #### API Reference
 
