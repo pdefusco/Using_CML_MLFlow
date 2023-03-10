@@ -295,7 +295,7 @@ Execute the script in your Session with Workbench Editor. Then, navigate to the 
 
 ![alt text](img/mlflow_step41.png)
 
-##### Expefriment 2
+##### Experiment 2
 
 Modify ```06_Spark_Iceberg_Example.py``` by commenting out lines 51 - 60 under the "Experiment 1" section. Then uncomment lines 67 - 81 under the "Experiment 2" section.
 
@@ -309,7 +309,7 @@ Execute the script in your Session with Workbench Editor. Then, navigate to the 
 
 ![alt text](img/mlflow_step42.png)
 
-##### Expefriment 3
+##### Experiment 3
 
 Modify ```06_Spark_Iceberg_Example.py``` by commenting out lines 67 - 81 under the "Experiment 1" section. Then uncomment lines 85 - 90 under the "Experiment 3" section.
 
