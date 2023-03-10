@@ -83,19 +83,19 @@ if __name__ == "__main__":
   ##EXPERIMENT 3
 
   #Replace Snapshot ID here
-  #snapshot_id = 4576831803588253082
-  #training_df = spark.read.option("snapshot-id", snapshot_id.table("spark_catalog.default.training")
+  #snapshot_id = 2693814795059767550
+  #training_df = spark.read.option("snapshot-id", snapshot_id).table("spark_catalog.default.training")
 
-  #committed_at = spark.sql("SELECT committed_at FROM prod.db.training.snapshots WHERE snapshot_id = {};".format(snapshot_id))
-  #parent_id = spark.sql("SELECT parent_id FROM prod.db.training.snapshots WHERE snapshot_id = {};".format(snapshot_id);")
-
+  #committed_at = spark.sql("SELECT committed_at FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).collect()[0][0].strftime('%m/%d/%Y')
+  #parent_id = str(spark.sql("SELECT parent_id FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).tail(1)[0][0])
+  
   tags = {
       "iceberg_snapshot_id": snapshot_id,
       "iceberg_snapshot_committed_at": committed_at,
       "iceberg_parent_id": parent_id,
       "row_count": training_df.count()
   }
-
+  
   ### MLFLOW EXPERIMENT RUN
   with mlflow.start_run() as run:
 
@@ -116,4 +116,6 @@ if __name__ == "__main__":
 
   mlflow.end_run()
 
+  
+  
 #spark.stop()
