@@ -1,3 +1,5 @@
+!pip3 install -r requirements.txt
+
 import os
 import warnings
 import sys
