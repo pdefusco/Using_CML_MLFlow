@@ -94,20 +94,20 @@ if __name__ == "__main__":
     ### MLFLOW EXPERIMENT RUN
     with mlflow.start_run() as run:
 
-    maxIter=10
-    regParam=0.001
+        maxIter=10
+        regParam=0.001
 
-    tokenizer = Tokenizer(inputCol="text", outputCol="words")
-    hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
-    lr = LogisticRegression(maxIter=maxIter, regParam=regParam)
-    pipeline = Pipeline(stages=[tokenizer, hashingTF, lr])
-    model = pipeline.fit(training_df)
+        tokenizer = Tokenizer(inputCol="text", outputCol="words")
+        hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
+        lr = LogisticRegression(maxIter=maxIter, regParam=regParam)
+        pipeline = Pipeline(stages=[tokenizer, hashingTF, lr])
+        model = pipeline.fit(training_df)
 
-    mlflow.log_param("maxIter", maxIter)
-    mlflow.log_param("regParam", regParam)
+        mlflow.log_param("maxIter", maxIter)
+        mlflow.log_param("regParam", regParam)
 
-    #prediction = model.transform(test)
-    mlflow.set_tags(tags)
+        #prediction = model.transform(test)
+        mlflow.set_tags(tags)
 
     mlflow.end_run()
 
