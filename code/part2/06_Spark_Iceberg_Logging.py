@@ -18,25 +18,18 @@ from pyspark.sql import SparkSession
 from pyspark.ml import Pipeline
 from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.feature import HashingTF, Tokenizer
+import cml.data_v1 as cmldata
 
 #mlflow.end_run()
 
 if __name__ == "__main__":
 
-  spark = SparkSession.builder.appName("Iceberg-Spark-MLFlow").master("local[*]")\
-    .config("spark.jars.packages", "org.mlflow:mlflow-spark:2.2.1")\
-    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-2")\
-    .config("spark.yarn.access.hadoopFileSystems","s3a://go01-demo")\
-    .config("spark.sql.extensions","org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
-    .config("spark.sql.catalog.spark_catalog","org.apache.iceberg.spark.SparkSessionCatalog") \
-    .config("spark.sql.catalog.local","org.apache.iceberg.spark.SparkCatalog") \
-    .config("spark.sql.catalog.local.type","hadoop") \
-    .config("spark.sql.catalog.spark_catalog.type","hive") \
-    .getOrCreate()
+    CONNECTION_NAME = "go01-aw-dl"
 
-  mlflow.set_experiment("sparkml-experiment")
+    conn = cmldata.get_connection(CONNECTION_NAME)
+    spark = conn.get_spark_session()
 
-  training_df = spark.createDataFrame(
+    training_df = spark.createDataFrame(
     [
         ("0", "a b c d e spark", 1.0),
         ("1", "b d", 0.0),
@@ -44,78 +37,80 @@ if __name__ == "__main__":
         ("3", "hadoop mapreduce", 0.0),
     ],
     ["id", "text", "label"],
-  )
+    )
 
-  ##EXPERIMENT 1
+    mlflow.set_experiment("sparkml-experiment")
 
-  training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
-  spark.sql("SELECT * FROM spark_catalog.default.training").show()
+    ##EXPERIMENT 1
 
-  ### SHOW TABLE HISTORY AND SNAPSHOTS
-  spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
-  spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
+    training_df.writeTo("spark_catalog.default.training").using("iceberg").createOrReplace()
+    spark.sql("SELECT * FROM spark_catalog.default.training").show()
 
-  snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
-  committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0].strftime('%m/%d/%Y')
-  parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
+    ### SHOW TABLE HISTORY AND SNAPSHOTS
+    spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
+    spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
-  ##EXPERIMENT 2
+    snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
+    committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0].strftime('%m/%d/%Y')
+    parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
 
-  ### ICEBERG INSERT DATA - APPEND FROM DATAFRAME
+    ##EXPERIMENT 2
 
-  # PRE-INSERT
-  #spark.sql("SELECT * FROM spark_catalog.default.training").show()
+    ### ICEBERG INSERT DATA - APPEND FROM DATAFRAME
 
-  #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training")
-  #temp_df.writeTo("spark_catalog.default.training").append()
-  #training_df = spark.sql("SELECT * FROM spark_catalog.default.training")
+    # PRE-INSERT
+    #spark.sql("SELECT * FROM spark_catalog.default.training").show()
 
-  # PROST-INSERT
-  #spark.sql("SELECT * FROM spark_catalog.default.training").show()
+    #temp_df = spark.sql("SELECT * FROM spark_catalog.default.training")
+    #temp_df.writeTo("spark_catalog.default.training").append()
+    #training_df = spark.sql("SELECT * FROM spark_catalog.default.training")
 
-  #spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
-  #spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
+    # PROST-INSERT
+    #spark.sql("SELECT * FROM spark_catalog.default.training").show()
 
-  #snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
-  #committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0].strftime('%m/%d/%Y')
-  #parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
+    #spark.read.format("iceberg").load("spark_catalog.default.training.history").show(20, False)
+    #spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").show(20, False)
 
-  ##EXPERIMENT 3
+    #snapshot_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("snapshot_id").tail(1)[0][0]
+    #committed_at = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("committed_at").tail(1)[0][0].strftime('%m/%d/%Y')
+    #parent_id = spark.read.format("iceberg").load("spark_catalog.default.training.snapshots").select("parent_id").tail(1)[0][0]
 
-  #Replace Snapshot ID here
-  #snapshot_id = 2693814795059767550
-  #training_df = spark.read.option("snapshot-id", snapshot_id).table("spark_catalog.default.training")
+    ##EXPERIMENT 3
 
-  #committed_at = spark.sql("SELECT committed_at FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).collect()[0][0].strftime('%m/%d/%Y')
-  #parent_id = str(spark.sql("SELECT parent_id FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).tail(1)[0][0])
+    #Replace Snapshot ID here
+    #snapshot_id = 2693814795059767550
+    #training_df = spark.read.option("snapshot-id", snapshot_id).table("spark_catalog.default.training")
 
-  tags = {
+    #committed_at = spark.sql("SELECT committed_at FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).collect()[0][0].strftime('%m/%d/%Y')
+    #parent_id = str(spark.sql("SELECT parent_id FROM spark_catalog.default.training.snapshots WHERE snapshot_id = {};".format(snapshot_id)).tail(1)[0][0])
+
+    tags = {
       "iceberg_snapshot_id": snapshot_id,
       "iceberg_snapshot_committed_at": committed_at,
       "iceberg_parent_id": parent_id,
       "row_count": training_df.count()
-  }
+    }
 
-  ### MLFLOW EXPERIMENT RUN
-  with mlflow.start_run() as run:
+    ### MLFLOW EXPERIMENT RUN
+    with mlflow.start_run() as run:
 
-    maxIter=10
-    regParam=0.001
+        maxIter=10
+        regParam=0.001
 
-    tokenizer = Tokenizer(inputCol="text", outputCol="words")
-    hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
-    lr = LogisticRegression(maxIter=maxIter, regParam=regParam)
-    pipeline = Pipeline(stages=[tokenizer, hashingTF, lr])
-    model = pipeline.fit(training_df)
+        tokenizer = Tokenizer(inputCol="text", outputCol="words")
+        hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="features")
+        lr = LogisticRegression(maxIter=maxIter, regParam=regParam)
+        pipeline = Pipeline(stages=[tokenizer, hashingTF, lr])
+        model = pipeline.fit(training_df)
 
-    mlflow.log_param("maxIter", maxIter)
-    mlflow.log_param("regParam", regParam)
+        mlflow.log_param("maxIter", maxIter)
+        mlflow.log_param("regParam", regParam)
 
-    #prediction = model.transform(test)
-    mlflow.set_tags(tags)
+        #prediction = model.transform(test)
+        mlflow.set_tags(tags)
 
-  mlflow.end_run()
+    mlflow.end_run()
 
 
 
-#spark.stop()
+    #spark.stop()
