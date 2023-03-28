@@ -136,7 +136,7 @@ Fill out the Model Deployment options as shown below. Ensure to select the "Depl
 
 ![alt text](img/mlflow_step28.png)
 
-Enter the following dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. A small Resource Profile with 1 vCPU / 2 GiB Mem will suffice. Deploy the model.
+Enter the following dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. A small Resource Profile with 1 vCPU / 2 GiB Mem will suffice. Disable "Model Authentication" in the Model Settings tab. Finally, deploy the model.
 
 ```
 {"columns":["alcohol", "chlorides", "citric acid", "density", "fixed acidity", "free sulfur dioxide", "pH", "residual sugar", "sulphates", "total sulfur dioxide", "volatile acidity"],"data":[[12.8, 0.029, 0.48, 0.98, 6.2, 29, 3.33, 1.2, 0.39, 75, 0.66]]}
@@ -144,7 +144,7 @@ Enter the following dictionary in the ```Example Input``` section. Feel free to 
 
 ![alt text](img/mlflow_reg_deployment_fix.png)
 
-Once the model is deployed, test the input and validate that the response output consists of a successful prediction. If you get an error, disable "Model Authentication" in the Model Settings tab.
+Once the model is deployed, test the input and validate that the response output consists of a successful prediction.
 
 ![alt text](img/mlflow_step30.png)
 
