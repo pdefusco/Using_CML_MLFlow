@@ -152,6 +152,8 @@ Once the model is deployed, test the input and validate that the response output
 
 ![alt text](img/mlflow_step32.png)
 
+![alt text](img/mlflow_reg_deployment_fix_2.png)
+
 
 ## Part 2: Using the MLFlow API
 
