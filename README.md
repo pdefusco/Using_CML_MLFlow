@@ -189,7 +189,7 @@ Open ```02_Log_Artifacts_Tags.py``` and familiarize yourself with the code. Noti
 * Line 24: tags in the tags dictionary are attached to the Experiment Run via ```mlflow.set_tags(tags)```
 * Line 27: files in the "data" folder are attached to the Experiment Run artifacts under the "states" folder.
 
-Notice that the ```mlflow.set_experiment()``` method is not used. As a consequence, the Experiment Run will be applied to the last set Experiment rather than "Default".
+Notice that the ```mlflow.set_experiment()``` method is not used. As a consequence, the Experiment Run will be applied to the last set Experiment rather than "Default" i.e. ```example-experiment```.
 
 Execute ```02_Log_Artifacts_Tags.py``` in a Session with the Workbench Editor and validate the results in the Experiments landing page. Notice that both the Tags and Artifacts have been attached to the Experiment Run.
 
@@ -210,11 +210,8 @@ Navigate to the Experiments Landing page, open your Experiment and copy the Expe
 Open ```03_Get_Experiment.py``` and familiarize yourself with the code. Notice the following:
 
 * Line 3: You can use the MLFlowClient ```client = mlflow.tracking.MlflowClient()``` to interact with MLFlow Experiments and Registry programmatically.
-
 * Line 6: Paste the Experiment ID in the variable.
-
 * Line 7: The Experiment metadata is parsed via the Client with ```experiment=client.get_experiment(experiment_id)```.
-
 * Lines 9 - 13: The Experiment metadata is output.
 
 #### Retrieving Models from Experiments
@@ -385,9 +382,6 @@ should be logged to.
 For more information on MLflow API commands used for tracking, see the [MLflow Tracking Documentation](https://mlflow.org/docs/latest/tracking.html).
 
 #### Framework Based MLFlow API's
-
-#### Automated Model Registration via MLFlow API
-
 
 
 ## Part 3: Automating MLOps with MLFlow
