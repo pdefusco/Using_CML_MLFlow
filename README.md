@@ -95,7 +95,10 @@ Navigate back to the Experiments tab, locate the "wine-quality-test" experiment 
 
 Scroll down to the Artifacts section. Click on "Model" in the "Artifacts" section. Notice that this is empty. This is because we have not logged the model related to this Experiment Run.
 
-Go back to your Session and execute ```02_Experiment_log_model.py```. Notice that the script is almost identical to "01_Experiment.py" with the exception for line 71. This is where the mlflow API is used to log the model i.e. store model artifacts in the associated Experiment.
+Go back to your Session and execute ```02_Experiment_log_model.py```. Notice that the script is almost identical to "01_Experiment.py" with a few exceptions:
+
+* Lines 49 and 50: we have now hardcoded the ```alpha``` and ```l1_ratio``` hyperparameters to 0.6.
+* Line 71: This is where the Mlflow API is used to log the model i.e. store model artifacts in the associated Experiment.
 
 ![alt text](img/mlflow_step18.png)
 
