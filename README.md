@@ -139,11 +139,7 @@ Fill out the Model Deployment options as shown below. Ensure to select the "Depl
 Enter the following dictionary in the ```Example Input``` section. Feel free to choose a name of your liking. A small Resource Profile with 1 vCPU / 2 GiB Mem will suffice. Deploy the model.
 
 ```
-{
-"input": [
-    [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4]
-  ]
-}  
+{"columns":["alcohol", "chlorides", "citric acid", "density", "fixed acidity", "free sulfur dioxide", "pH", "residual sugar", "sulphates", "total sulfur dioxide", "volatile acidity"],"data":[[12.8, 0.029, 0.48, 0.98, 6.2, 29, 3.33, 1.2, 0.39, 75, 0.66]]}
 ```
 
 ![alt text](img/mlflow_step29.png)
