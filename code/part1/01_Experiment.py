@@ -27,7 +27,7 @@ if __name__ == "__main__":
     np.random.seed(40)
 
     mlflow.set_experiment("wine-quality-test")
-    
+
     # Read the wine-quality csv file from the URL
     csv_url = (
         "https://raw.githubusercontent.com/mlflow/mlflow-example/master/wine-quality.csv"
@@ -50,9 +50,9 @@ if __name__ == "__main__":
 
     alpha = 0.5
     l1_ratio = 0.5
-    
+
     with mlflow.start_run():
-      
+
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
         lr.fit(train_x, train_y)
 
