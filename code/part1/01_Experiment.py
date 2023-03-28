@@ -30,10 +30,10 @@ if __name__ == "__main__":
     
     # Read the wine-quality csv file from the URL
     csv_url = (
-        "https://raw.githubusercontent.com/mlflow/mlflow/master/tests/data/winequality-red.csv"
+        "https://raw.githubusercontent.com/mlflow/mlflow-example/master/wine-quality.csv"
     )
     try:
-        data = pd.read_csv(csv_url, sep=";")
+        data = pd.read_csv(csv_url, sep=",")
     except Exception as e:
         logger.exception(
             "Unable to download training & test CSV, check your internet connection. Error: %s", e
