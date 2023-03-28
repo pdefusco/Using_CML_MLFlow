@@ -165,16 +165,12 @@ In script ```01_Experiment.py``` in part 1 we launched an Experiment by first se
 
 You can set the Experiment Name from the MLFlow Experiments UI or programmatically as aforementioned. If you don't set the Experiment Name the Experiment will be logged as ```Default```.
 
-We will explore these concepts in more detail. Open script ```01_Active_Experiment.py``` and familiarize yourself with the code. Notice the following:
+We will explore these concepts in more detail. Navigate back to your Workbench Session, open script ```01_Active_Experiment.py``` and familiarize yourself with the code. Notice the following:
 
-* Line 1: one must always use ```import mlflow```. The mlflow package does not need to be installed with pip and is already present in every CML Project.
-
+* Line 1: you must always use ```import mlflow```. The mlflow package does not need to be installed with pip and is already present in every CML Project.
 * Line 3: the Experiment name is set with ```mlflow.set_experiment("example-experiment")```. This will be the entry for the Experiment in the Experiments Landing Page. The Experiment is not yet active at this stage.
-
 * Line 5: the Experiment Run is launched with ```mlflow.start_run()```.
-
 * Line 7: the Active Experiment Run provides a Run Context with useful parameters for managing experiments such as a Run ID: ```run = mlflow.active_run()```. This is output with ```print("Active run_id: {}".format(run.info.run_id))```.
-
 * Line 9: the Active Experiment Run context is terminated with ```mlflow.end_run()```.
 
 Experiment Runs must always be terminated before a new Run can be launched for the same Experiment.
@@ -188,14 +184,10 @@ Experiment Runs allow you to log a rich set of metadata and attachments by addin
 Open ```02_Log_Artifacts_Tags.py``` and familiarize yourself with the code. Notice the following:
 
 * Lines 5 - 14: two files named "data/json.json" and "data/features.txt" are created.
-
 * Lines 16 - 20: a dictionary of tags is created.
-
 * Line 22: the Experiment Run is launched.
-
-* Line 24: the tags contained in the tags dictionary is attached to the Experiment Run via ```mlflow.set_tags(tags)```
-
-* Line 27: the files contained in the "data" folder are attached to the Experiment Run artifacts under the "states" folder.
+* Line 24: tags in the tags dictionary are attached to the Experiment Run via ```mlflow.set_tags(tags)```
+* Line 27: files in the "data" folder are attached to the Experiment Run artifacts under the "states" folder.
 
 Notice that the ```mlflow.set_experiment()``` method is not used. As a consequence, the Experiment Run will be applied to the last set Experiment rather than "Default".
 
