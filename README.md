@@ -290,7 +290,7 @@ Modify ```06_Spark_Iceberg_Example.py``` by commenting out lines 51 - 60 under t
 Notice the following:
 
 * Lines 69 - 74: An INSERT is performed.
-* Lines 76 - 77: The INSERT creates a new Iceberg Snapshot which is tracked in the History and SNapshots tables.
+* Lines 76 - 77: The INSERT creates a new Iceberg Snapshot which is tracked in the History and Snapshots tables.
 * Lines 79 - 81: As in Experiment 1, Iceberg Snapshot metadata is stored so it can be logged as part of the MLFlow Experiment Run.
 
 Execute the script in your Session with Workbench Editor. Then, navigate to the Experiments tab and validate the Run. Notice that the second Experiment's Iceberg Parent ID matches with the first Experiment's Snapshot ID. Furthermore, notice the table row count has increased by checking the table row count MLFlow Tag.
